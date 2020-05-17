@@ -2,7 +2,7 @@ import React, {Component} from "react";
 import {Link, Route, Switch} from "react-router-dom";
 import SectionTags from "./section/tags/SectionTags";
 import SectionAddTag from "./section/tags/SectionAddTag";
-import SectionCategories from "./section/categories/SectionCategories";
+import {isAllowed} from "../../../config/auth";
 
 class Tags extends Component {
 
@@ -51,8 +51,11 @@ class Tags extends Component {
 
                 <Switch>
                     <Route exact path="/admin/tags" render={() => <SectionTags search={this.state.search} onRef={ref => (this.tags = ref)}/>} />
+
+                    {isAllowed("All-Tags") &&
                     <Route exact path="/admin/tags/create" component={SectionAddTag}/>
-                </Switch>
+                    }
+                    </Switch>
 
             </div>
         )

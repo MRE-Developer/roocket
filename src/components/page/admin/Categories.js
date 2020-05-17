@@ -2,7 +2,7 @@ import React, {Component} from "react";
 import {Link, Route, Switch} from "react-router-dom";
 import SectionCategories from "./section/categories/SectionCategories";
 import SectionAddCategory from "./section/categories/SectionAddCategory";
-import SectionArticles from "./section/articles/SectionArticles";
+import {isAllowed} from "../../../config/auth";
 
 class Categories extends Component {
 
@@ -15,10 +15,10 @@ class Categories extends Component {
     }
 
     handleSearch = (e) => {
-        this.setState({search : e.target.value});
+        this.setState({search: e.target.value});
     };
 
-    handleSubmit= (e) => {
+    handleSubmit = (e) => {
         e.preventDefault();
         this.categories.componentDidMount()
     };
@@ -31,7 +31,8 @@ class Categories extends Component {
                     <div className="collapse navbar-collapse" id="navbarNav">
                         <ul className="navbar-nav mr-auto">
                             <li className="nav-item active">
-                                <Link className="nav-link text-primary" to="/admin/categories/create" >اضافه کردن دسته بندی</Link>
+                                <Link className="nav-link text-primary" to="/admin/categories/create">اضافه کردن دسته
+                                    بندی</Link>
                             </li>
                         </ul>
 
@@ -50,10 +51,12 @@ class Categories extends Component {
                     </div>
                 </nav>
 
-
                 <Switch>
-                    <Route exact path="/admin/categories" render={() => <SectionCategories search={this.state.search} onRef={ref => (this.categories = ref)}/>} />
+                    <Route exact path="/admin/categories" render={() => <SectionCategories search={this.state.search}
+                                                                                           onRef={ref => (this.categories = ref)}/>}/>
+                    {isAllowed("All-Categories") &&
                     <Route exact path="/admin/categories/create" component={SectionAddCategory}/>
+                    }
                 </Switch>
 
             </div>

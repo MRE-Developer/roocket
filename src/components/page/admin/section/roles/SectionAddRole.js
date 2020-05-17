@@ -26,7 +26,7 @@ class SectionAddRole extends Component {
             .then((response) => {
                 if (response.data.status === "success") {
                     const permissions = response.data.data.map((permission) => (
-                        {value: `${permission.id}`, label: `${permission.name}`}
+                        {value: `${permission.id}`, label: `${permission.name} - ${permission.label}`}
                     ));
                     this.setState({permissions});
                 } else {
@@ -95,9 +95,8 @@ class SectionAddRole extends Component {
                 }
             }).catch(error => {
                 const data = error.response.data.data;
-                let errors = "";
-                Object.keys(data).map((keyName) => {
-                    errors += `${data[keyName][0]}\n`
+                let errors = Object.keys(data).map((keyName) => {
+                    return errors += `${data[keyName][0]}\n`
                 });
                 swal("عملیات ناموفق", errors, "error");
             })
@@ -118,7 +117,7 @@ class SectionAddRole extends Component {
                                className={["form-control", errors["name"] ? "is-invalid" : ""].join(" ")}
                                name="name"
                                onChange={this.handleChange}
-                               placeholder="نام دسته بندی"/>
+                               placeholder="نام سطح دسترسی"/>
                         {errors["name"] &&
                         <span className="text-danger mt-2">{errors["name"]}</span>}
                     </div>
@@ -136,17 +135,18 @@ class SectionAddRole extends Component {
                         {errors["label"] &&
                         <span className="text-danger mt-2">{errors["label"]}</span>}
                     </div>
-                </div>
 
-                {/*Tags*/}
-                <div className="form-group col-md-4">
-                    <label htmlFor="inputState">دسترسی ها</label>
-                    <Select
-                        closeMenuOnSelect={false}
-                        isMulti
-                        onChange={this.handleChangePermissions}
-                        options={permissions}
-                    />
+                    {/*Permissions*/}
+                    <div className="form-group col-md-6">
+                        <label htmlFor="inputState">دسترسی ها</label>
+                        <Select
+                            closeMenuOnSelect={false}
+                            isMulti
+                            onChange={this.handleChangePermissions}
+                            options={permissions}
+                        />
+                    </div>
+
                 </div>
 
                 {/*Submit*/}

@@ -2,6 +2,7 @@ import React, {Component} from "react";
 import {Link, Route, Switch} from "react-router-dom";
 import SectionPermissions from "./section/permissions/SectionPermissions";
 import SectionAddPermissions from "./section/permissions/SectionAddPermissions";
+import {isAllowed} from "../../../config/auth";
 
 class Permissions extends Component {
 
@@ -29,12 +30,16 @@ class Permissions extends Component {
                     <div className="collapse navbar-collapse" id="navbarNav">
                         <ul className="navbar-nav mr-auto">
                             <li className="nav-item active">
+                                {isAllowed("Create-Permission") &&
                                 <Link className="nav-link text-primary" to="/admin/permissions/create" >ثبت دسترسی جدید</Link>
+                                }
                             </li>
                         </ul>
 
                         <div className="btn-group " role="group" aria-label="Basic example">
+                            {isAllowed("Show-Roles") &&
                             <Link className="btn btn-info" to="/admin/roles" >مقام ها</Link>
+                            }
                         </div>
 
                         <form className="form-inline">
@@ -52,8 +57,13 @@ class Permissions extends Component {
                 </nav>
 
                 <Switch>
+                    {isAllowed("Show-Permissions") &&
                     <Route exact path="/admin/permissions" render={() => <SectionPermissions search={this.state.search} onRef={ref => (this.permissions = ref)}/>} />
+                    }
+
+                    {isAllowed("Create-Permission") &&
                     <Route exact path="/admin/permissions/create" component={SectionAddPermissions}/>
+                    }
                 </Switch>
             </div>
         )

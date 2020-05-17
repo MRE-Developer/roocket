@@ -3,6 +3,7 @@ import SectionArticles from "./section/articles/SectionArticles";
 import SectionAddArticle from "./section/articles/SectionAddArticle";
 import {Link, Route, Switch} from "react-router-dom";
 import SectionUnVerifiedArticles from "./section/articles/SectionUnVerifiedArticles";
+import {isAllowed} from "../../../config/auth";
 
 class Articles extends Component {
 
@@ -14,10 +15,10 @@ class Articles extends Component {
     }
 
     handleSearch = (e) => {
-        this.setState({search : e.target.value});
+        this.setState({search: e.target.value});
     };
 
-    handleSubmit= (e) => {
+    handleSubmit = (e) => {
         e.preventDefault();
         this.articles.componentDidMount()
     };
@@ -29,14 +30,19 @@ class Articles extends Component {
                     <Link className="navbar-brand" to="/admin/articles">مقاله ها</Link>
                     <div className="collapse navbar-collapse" id="navbarNav">
                         <ul className="navbar-nav mr-auto">
+
+                            {isAllowed("Verify-Articles") &&
                             <li className="nav-item active">
                                 <Link className="nav-link text-primary" to="/admin/articles/unVerified">در انتظار
                                     تایید</Link>
                             </li>
+                            }
 
+                            {isAllowed("Create-Article") &&
                             <li className="nav-item active">
                                 <Link className="nav-link text-primary" to="/admin/articles/create">نوشتن مقاله</Link>
                             </li>
+                            }
                         </ul>
 
                         <form className="form-inline">
@@ -50,16 +56,18 @@ class Articles extends Component {
                                 <button className="btn btn-success" onClick={this.handleSubmit}>جستجو</button>
                             </div>
                         </form>
-
                     </div>
                 </nav>
 
                 <Switch>
                     <Route exact path="/admin/articles" render={() => <SectionArticles search={this.state.search} onRef={ref => (this.articles = ref)}/>}/>
-                    <Route exact path="/admin/articles/unVerified" component={SectionUnVerifiedArticles}/>
-                    <Route exact path="/admin/articles/create" component={SectionAddArticle}/>
+                    {isAllowed("Verify-Articles") &&
+                        <Route exact path="/admin/articles/unVerified" component={SectionUnVerifiedArticles}/>
+                    }
+                    {isAllowed("Create-Article") &&
+                        <Route exact path="/admin/articles/create" component={SectionAddArticle}/>
+                    }
                 </Switch>
-
             </div>
         )
     }

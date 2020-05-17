@@ -2,6 +2,7 @@ import React, {Component} from "react";
 import {Link, Route, Switch} from "react-router-dom";
 import SectionUsers from "./section/users/SectionUsers";
 import SectionAddUser from "./section/users/SectionAddUser";
+import {isAllowed} from "../../../config/auth";
 
 class Users extends Component {
 
@@ -28,14 +29,21 @@ class Users extends Component {
                     <Link className="navbar-brand" to="/admin/tags">کاربران</Link>
                     <div className="collapse navbar-collapse" id="navbarNav">
                         <ul className="navbar-nav mr-auto">
-                            <li className="nav-item active">
-                                <Link className="nav-link text-primary" to="/admin/users/create" >ثبت نام کاربر جدید</Link>
-                            </li>
+                            {isAllowed("Create-User") &&
+                                <li className="nav-item active">
+                                    <Link className="nav-link text-primary" to="/admin/users/create" >ثبت نام کاربر جدید</Link>
+                                </li>
+                            }
                         </ul>
 
                         <div className="btn-group " role="group" aria-label="Basic example">
-                            <Link className="btn btn-warning" to="/admin/roles" >مقام ها</Link>
-                            <Link className="btn btn-info" to="/admin/levels" >کاربران مدیریت</Link>
+                            {isAllowed("Show-Roles") &&
+                                <Link className="btn btn-warning" to="/admin/roles" >مقام ها</Link>
+                            }
+
+                            {isAllowed("Show-Levels") &&
+                                <Link className="btn btn-info" to="/admin/levels" >کاربران مدیریت</Link>
+                            }
                         </div>
 
                         <form className="form-inline">
@@ -53,8 +61,12 @@ class Users extends Component {
                 </nav>
 
                 <Switch>
-                    <Route exact path="/admin/users" render={() => <SectionUsers search={this.state.search} onRef={ref => (this.users = ref)}/>} />
-                    <Route exact path="/admin/users/create" component={SectionAddUser}/>
+                    {isAllowed("Show-Users") &&
+                        <Route exact path="/admin/users" render={() => <SectionUsers search={this.state.search} onRef={ref => (this.users = ref)}/>} />
+                    }
+                    {isAllowed("Create-User") &&
+                        <Route exact path="/admin/users/create" component={SectionAddUser}/>
+                    }
                 </Switch>
 
             </div>

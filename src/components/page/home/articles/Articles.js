@@ -4,22 +4,20 @@ import {API_ROUTE, SERVER_ERROR} from "../../../../config/config";
 import swal from "sweetalert";
 import Axios from "axios";
 import Select from "react-select";
+import Spinner from "../../../section/Spinner";
 
 class Articles extends Component {
 
-    constructor(props) {
-        super(props);
-        this.state = {
-            articles : [],
-            categories: [],
-            category : "all",
-            orderBy : "DESC",
-            search : ""
-        }
-    }
+    state = {
+        articles: null,
+        categories: [],
+        category: "all",
+        orderBy: "DESC",
+        search: ""
+    };
 
     componentDidMount() {
-        const {search , category , orderBy} = this.state;
+        const {search, category, orderBy} = this.state;
         Axios.get(API_ROUTE + `/articles?search=${search}&orderBy=${orderBy}&category=${category}`)
             .then((response) => {
                 const data = response.data;
@@ -29,7 +27,7 @@ class Articles extends Component {
                     ));
                     categories.unshift({value: "all", label: "همه دسته بندی ها"});
 
-                    this.setState({articles: data.data.articles.data,categories});
+                    this.setState({articles: data.data.articles.data, categories});
                 } else {
                     swal("عملیات نا موفق!", SERVER_ERROR, "error");
                 }
@@ -39,17 +37,17 @@ class Articles extends Component {
             });
     };
 
-    handleSelect = (optionSelected , e) => {
-        this.setState({[e.name] : optionSelected.value});
+    handleSelect = (optionSelected, e) => {
+        this.setState({[e.name]: optionSelected.value});
     };
 
     handleSearch = e => {
-        this.setState({search : e.target.value});
+        this.setState({search: e.target.value});
     };
 
     handleSubmit = e => {
         e.preventDefault();
-      this.componentDidMount();
+        this.componentDidMount();
     };
 
     render() {
@@ -95,9 +93,12 @@ class Articles extends Component {
                         </div>
                     </div>
                 </form>
-                <div className="row rtl">
-                    {articles.map((article, index) => <Article article={article} key={index}/>)}
-                </div>
+                {articles ?
+                    <div className="row rtl">
+                        {articles.map((article, index) => <Article article={article} key={index}/>)}
+                    </div>
+                    : ""
+                }
             </div>
 
         )

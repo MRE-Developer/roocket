@@ -2,6 +2,7 @@ import React, {Component} from "react";
 import {Link, Route, Switch} from "react-router-dom";
 import SectionLevels from "./section/levels/SectionLevels";
 import SectionAddLevel from "./section/levels/SectionAddLevel";
+import {isAllowed} from "../../../config/auth";
 
 class LevelManager extends Component {
 
@@ -29,13 +30,20 @@ class LevelManager extends Component {
                     <div className="collapse navbar-collapse" id="navbarNav">
                         <ul className="navbar-nav mr-auto">
                             <li className="nav-item active">
+                                {isAllowed("Create-Level") &&
                                 <Link className="nav-link text-primary" to="/admin/levels/create" >ثبت مقام برای کاربر</Link>
+                                }
                             </li>
                         </ul>
 
                         <div className="btn-group " role="group" aria-label="Basic example">
+                            {isAllowed("Show-Roles") &&
                             <Link className="btn btn-warning" to="/admin/roles" >مقام ها</Link>
+                            }
+
+                            {isAllowed("Show-Users") &&
                             <Link className="btn btn-info" to="/admin/users" >کاربران</Link>
+                            }
                         </div>
 
                         <form className="form-inline">
@@ -53,8 +61,13 @@ class LevelManager extends Component {
                 </nav>
 
                 <Switch>
+                    {isAllowed("Show-Levels") &&
                     <Route exact path="/admin/levels" render={() => <SectionLevels search={this.state.search} onRef={ref => (this.levels = ref)}/>} />
+                    }
+
+                    {isAllowed("Create-Level") &&
                     <Route exact path="/admin/levels/create" component={SectionAddLevel}/>
+                    }
                 </Switch>
 
             </div>

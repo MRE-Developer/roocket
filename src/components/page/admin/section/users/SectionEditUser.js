@@ -101,9 +101,8 @@ class SectionEditUser extends Component {
                 }
             }).catch(error => {
                 const data = error.response.data.data;
-                let errors = "";
-                Object.keys(data).map((keyName) => {
-                    errors += `${data[keyName][0]}\n`
+                let errors = Object.keys(data).map(keyName => {
+                    return errors += `${data[keyName][0]}\n`
                 });
                 console.log(errors);
                 swal("عملیات ناموفق", errors, "error");
@@ -146,17 +145,21 @@ class SectionEditUser extends Component {
 
                 <div className="form-row">
                     {/*Level*/}
-                    <div className="form-group col-md-4">
-                        <label>سطح</label>
-                        <Select
-                            onChange={this.handleChangeLevel}
-                            options={[
-                                {value: "user", label: "کاربر معمولی"},
-                                {value: "admin", label: "ادمین"}
-                            ]}
-                            value={user.selectedLevel}
-                        />
-                    </div>
+                    {user.mobile !== "09185493615" &&
+
+                        <div className="form-group col-md-4">
+                            <label>سطح</label>
+                            <Select
+                                onChange={this.handleChangeLevel}
+                                options={[
+                                    {value: "user", label: "کاربر معمولی"},
+                                    {value: "admin", label: "ادمین"}
+                                ]}
+                                value={user.selectedLevel}
+                            />
+                        </div>
+
+                    }
 
                     {/*Password*/}
                     <div className="form-group col-md-4">

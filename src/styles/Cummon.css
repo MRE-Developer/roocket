@@ -9,10 +9,9 @@
     url('../cdn/fonts/ttf/IRANSansWeb.ttf') format('truetype');
 }
 
-body {
+body{
     font-family: 'IRANSans';
 }
-
 
 .bd-placeholder-img {
     font-size: 1.125rem;
@@ -41,6 +40,10 @@ body {
 body {
     padding: 0;
     margin: 0;
+}
+
+.main-content {
+    min-height: 81vh ;
 }
 
 #notfound {
@@ -128,4 +131,12 @@ body {
     .notfound .notfound-404 h1 {
         font-size: 120px;
     }
+}
+
+.swal-content textarea{
+    height : 200px;
+    width : 400px;
+    overflow: auto;
+    /*resize: none;*/
+
 }

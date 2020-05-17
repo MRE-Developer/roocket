@@ -83,9 +83,8 @@ class SectionAddUser extends Component {
                 }
             }).catch(error => {
                 const data = error.response.data.data;
-                let errors = "";
-                Object.keys(data).map((keyName) => {
-                    errors += `${data[keyName][0]}\n`
+                let errors = Object.keys(data).map((keyName) => {
+                    return errors += `${data[keyName][0]}\n`
                 });
                 console.log(errors);
                 swal("عملیات ناموفق", errors, "error");

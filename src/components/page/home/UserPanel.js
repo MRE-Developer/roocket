@@ -91,7 +91,6 @@ class UserPanel extends Component {
         return <ul className="list-unstyled pl-0">{errorItems}</ul>
     };
 
-
     render() {
         const errors = this.renderErrors();
         const {user} = this.state;

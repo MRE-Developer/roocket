@@ -26,6 +26,7 @@ export const ROUTE_USER_PANEL = "/user-panel";
 export const APP_TOKEN_NAME = "RoocketToken";
 export const SERVER_ERROR = "با عرض پوزش مشکلی پیش آمده است،لطفا بعدا تلاش کنید.";
 export const INPUT_ERROR = "ورودی های خود را برسی کنید.";
+export const YOU_SURE = text => `از حذف کردن ${text} اطمینان دارید؟`;
 
 
 export const ROUTE_ADMIN_DASHBOARD = "/admin";

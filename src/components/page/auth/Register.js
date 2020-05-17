@@ -13,6 +13,7 @@ class Register extends Component {
             mobile: "",
             password: "",
             verifyCode: "",
+            code: "",
             errors: {},
             hasError: false,
             isVerify: false,
@@ -53,7 +54,7 @@ class Register extends Component {
                 mobile: mobile,
                 password: password
             }).then((response) => {
-                this.setState({verifyCode: response.data.data.verifyCode, isVerify: true});
+                this.setState({code: response.data.data.verifyCode, isVerify: true});
             }).catch((error) => {
                 this.setState({errors: error.response.data.data, hasError: true});
             })
@@ -129,6 +130,7 @@ class Register extends Component {
                                         <button className="btn btn-lg btn-primary btn-block mt-4" type="submit"
                                                 onClick={this.signUp}>ثبت نام
                                         </button>
+                                        {this.state.code}
 
                                     </div>
                                     :

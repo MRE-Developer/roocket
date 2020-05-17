@@ -38,9 +38,8 @@ class SectionAddTag extends Component {
                 }
             }).catch(error => {
                 const data = error.response.data.data;
-                let errors = "";
-                Object.keys(data).map((keyName) => {
-                    errors += data[keyName][0]
+                let errors = Object.keys(data).map((keyName) => {
+                    return errors += `${data[keyName][0]}`
                 });
                 swal("عملیات ناموفق", errors, "error");
             })

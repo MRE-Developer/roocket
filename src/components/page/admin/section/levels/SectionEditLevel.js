@@ -2,7 +2,6 @@ import React, {Component} from "react";
 import Axios from "axios";
 import {API_ADMIN, APP_TOKEN_NAME, SERVER_ERROR} from "../../../../../config/config";
 import swal from "sweetalert";
-import validator from "validator";
 import Select from "react-select";
 import {Link} from "react-router-dom";
 
@@ -73,9 +72,8 @@ class SectionEditLevel extends Component {
                 }
             }).catch(error => {
                 const data = error.response.data.data;
-                let errors = "";
-                Object.keys(data).map((keyName) => {
-                    errors += `${data[keyName][0]}\n`
+                let errors = Object.keys(data).map((keyName) => {
+                    return errors += `${data[keyName][0]}\n`
                 });
                 swal("عملیات ناموفق", errors, "error");
             })

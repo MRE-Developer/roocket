@@ -4,6 +4,7 @@ import {API_ROUTE, APP_TOKEN_NAME, ROUTE_HOME} from "../../../config/config";
 import {setIsAuthenticated, setUser} from "../../../actions/userAction";
 import store from "../../../store";
 import validator from "validator";
+import {setUserAuthFile} from "../../../config/auth";
 
 class Login extends Component {
 
@@ -54,6 +55,7 @@ class Login extends Component {
                 if (response.data.status === "success") {
                     localStorage.setItem(APP_TOKEN_NAME, response.data.data.api_token);
                     store.dispatch(setIsAuthenticated(true));
+                    setUserAuthFile(response.data.data);
                     store.dispatch(setUser(response.data.data));
                     this.props.history.push(ROUTE_HOME)
                 }

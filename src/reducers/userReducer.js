@@ -1,6 +1,6 @@
 const userReducer = (state = {
     isAuthenticated :false,
-    user: {}
+    user: null
 }, action) => {
     switch (action.type) {
         case "SET_IS_AUTHENTICATED" :

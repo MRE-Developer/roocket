@@ -1,8 +1,8 @@
 import React, {Component} from "react";
 import {Link, Route, Switch} from "react-router-dom";
-import SectionAddUser from "./section/users/SectionAddUser";
 import SectionRoles from "./section/roles/SectionRoles";
 import SectionAddRole from "./section/roles/SectionAddRole";
+import {isAllowed} from "../../../config/auth";
 
 class Roles extends Component {
 
@@ -14,10 +14,10 @@ class Roles extends Component {
     }
 
     handleSearch = (e) => {
-        this.setState({search : e.target.value});
+        this.setState({search: e.target.value});
     };
 
-    handleSubmit= (e) => {
+    handleSubmit = (e) => {
         e.preventDefault();
         this.roles.componentDidMount()
     };
@@ -29,13 +29,21 @@ class Roles extends Component {
                     <Link className="navbar-brand" to="/admin/roles">مقام ها</Link>
                     <div className="collapse navbar-collapse" id="navbarNav">
                         <ul className="navbar-nav mr-auto">
+                            {isAllowed("Create-Role") &&
                             <li className="nav-item active">
-                                <Link className="nav-link text-primary" to="/admin/roles/create" >ثبت مقام جدید</Link>
+                                <Link className="nav-link text-primary" to="/admin/roles/create">ثبت مقام جدید</Link>
                             </li>
+                            }
                         </ul>
 
                         <div className="btn-group " role="group" aria-label="Basic example">
-                            <Link className="btn btn-info" to="/admin/permissions" >سطوح دسترسی</Link>
+                            {isAllowed("Show-Permissions") &&
+                            <Link className="btn btn-info" to="/admin/permissions">سطوح دسترسی</Link>
+                            }
+
+                            {isAllowed("Show-Users") &&
+                            <Link className="btn btn-warning" to="/admin/users" >کاربران</Link>
+                            }
                         </div>
 
                         <form className="form-inline">
@@ -53,8 +61,13 @@ class Roles extends Component {
                 </nav>
 
                 <Switch>
-                    <Route exact path="/admin/roles" render={() => <SectionRoles search={this.state.search} onRef={ref => (this.roles = ref)}/>} />
+                    {isAllowed("Show-Roles") &&
+                    <Route exact path="/admin/roles"
+                           render={() => <SectionRoles search={this.state.search} onRef={ref => (this.roles = ref)}/>}/>
+                    }
+                    {isAllowed("Create-Permission") &&
                     <Route exact path="/admin/roles/create" component={SectionAddRole}/>
+                    }
                 </Switch>
             </div>
         )

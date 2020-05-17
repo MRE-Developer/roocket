@@ -4,15 +4,13 @@ import Article from "../../section/Article";
 import {API_ROUTE, ROUTE_ARTICLES, SERVER_ERROR} from "../../../config/config";
 import swal from "sweetalert";
 import {Link} from "react-router-dom";
+import Spinner from "../../section/Spinner";
 
 class Home extends Component {
 
-    constructor(props) {
-        super(props);
-        this.state = {
-            articles: [],
-        }
-    }
+    state = {
+        articles: null,
+    };
 
     componentDidMount() {
         Axios.get(API_ROUTE + "/lastArticles")
@@ -51,12 +49,15 @@ class Home extends Component {
                         <h5><Link to={ROUTE_ARTICLES}>مشاهده همه مقالات</Link></h5>
                     </div>
                 </div>
-                <div className="row rtl">
-                    {articles.map((article, index) => <Article article={article} key={index}/>)}
-                </div>
+                {articles
+                    ?
+                    <div className="row rtl">
+                        {articles.map((article, index) => <Article article={article} key={index}/>)}
+                    </div>
+                    : ""
+                }
 
             </div>
-
         )
     }
 }

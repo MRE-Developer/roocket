@@ -2,12 +2,12 @@ import React, {Component} from "react";
 import Select from 'react-select';
 import Axios from "axios";
 import {API_ADMIN, APP_TOKEN_NAME, SERVER_ERROR} from "../../../../../config/config";
-import CKEditor from '@ckeditor/ckeditor5-react';
-import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import swal from "sweetalert";
 import validator from 'validator';
 import {Link} from "react-router-dom";
 
+import CKEditor from '@ckeditor/ckeditor5-react';
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 
 class AddArticle extends Component {
 
@@ -25,7 +25,10 @@ class AddArticle extends Component {
                 image: null,
                 tags: [],
                 category_id: "",
-            }
+            },
+            insertImageRequested: false,
+            imageFileRequested: null,
+            eventLogData: null
         };
     }
 
@@ -56,10 +59,9 @@ class AddArticle extends Component {
     };
     handleChangeTags = selectedOption => {
         let tags = [];
-        if (selectedOption != null)  tags = selectedOption.map(tag => (tag.value));
+        if (selectedOption != null) tags = selectedOption.map(tag => (tag.value));
         this.setState(prevState => ({article: {...prevState.article, tags}}));
     };
-
     handleChange = (e) => {
         const {name, value} = e.target;
         let {errors} = this.state;
@@ -94,6 +96,14 @@ class AddArticle extends Component {
             }
         }));
     };
+    handleChangeBody = (value) => {
+        this.setState(prevState => ({
+            article: {
+                ...prevState.article,
+                body: value
+            }
+        }));
+    };
     changeImage = (event) => {
         const image = event.target.files[0];
         this.setState(prevState => ({
@@ -103,13 +113,12 @@ class AddArticle extends Component {
             }
         }));
     };
-
     submitData = (e) => {
         e.preventDefault();
         const {article} = this.state;
         if (article.title.length && article.source_url.length > 10 &&
             article.body.length && article.description.length > 20 &&
-            article.category_id && article.tags.length && article.image){
+            article.category_id && article.tags.length && article.image) {
 
             const formDta = new FormData();
             formDta.append("api_token", localStorage.getItem(APP_TOKEN_NAME));
@@ -132,16 +141,45 @@ class AddArticle extends Component {
                 }
             }).catch(error => {
                 const data = error.response.data.data;
-                let errors = "";
-                Object.keys(data).map((keyName) => {
-                    errors += `${data[keyName][0]}\n`
+                let errors = Object.keys(data).map((keyName) => {
+                    return errors += `${data[keyName][0]}\n`
                 });
                 swal("عملیات ناموفق", errors, "error");
             })
-        }else {
+        } else {
             swal("عملیات ناموفق", "ورودی های خود را برسی کنید.", "error");
         }
     };
+
+    /* modules = {
+         toolbar: [
+                 ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
+                 ['blockquote', 'code-block'],
+
+                 [{ 'header': 1 }, { 'header': 2 }],               // custom button values
+                 [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+                 [{ 'script': 'sub'}, { 'script': 'super' }],      // superscript/subscript
+                 [{ 'indent': '-1'}, { 'indent': '+1' }],          // outdent/indent
+                 [{ 'direction': 'ltr' }],                         // text direction
+
+                 [{ 'size': ['small', false, 'large', 'huge'] }],  // custom dropdown
+                 [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+
+                 [{ 'color': [] }, { 'background': [] }],          // dropdown with defaults from theme
+                 [{ 'font': [] }],
+                 ['link', 'image'],
+                 [{ 'align': [] }],
+
+                 ['clean']                                         // remove formatting button
+         ],
+     };
+
+     formats = [
+         'header',
+         'bold', 'italic', 'underline', 'strike', 'blockquote' , 'color',
+         'list', 'bullet', 'indent',
+         'link', 'image'
+     ];*/
 
     render() {
         const {categories, tags, errors} = this.state;
@@ -153,7 +191,7 @@ class AddArticle extends Component {
                     <div className="form-group col-md-6">
                         <label htmlFor="inputEmail4">عنوان مقاله</label>
                         <input type="text"
-                               className={["form-control", errors["title"]? "is-invalid" : ""].join(" ")}
+                               className={["form-control", errors["title"] ? "is-invalid" : ""].join(" ")}
                                name="title"
                                onChange={this.handleChange}
                                placeholder="عنوان مقاله"/>
@@ -172,15 +210,18 @@ class AddArticle extends Component {
                     {errors["description"] &&
                     <span className="text-danger mt-2">{errors["description"]}</span>}
                 </div>
+
                 {/*Body*/}
                 <div className="form-group">
                     <label htmlFor="inputAddress2">متن مقاله</label>
+
                     <CKEditor
+                        editor = {ClassicEditor}
                         config={{
                             language: 'fa',
                         }}
-                        editor={ClassicEditor}
                         name="body"
+
                         onBlur={(event, editor) => {
                             const body = editor.getData();
                             const error = !validator.isLength(body, {min: 20}) ? "متن مقاله نباید کمتر از 20 کاراکتر باشد." : "";
@@ -196,12 +237,13 @@ class AddArticle extends Component {
                             }));
                         }}
                     />
+
                     {errors["body"] &&
                     <span className="text-danger mt-2">{errors["body"]}</span>}
                 </div>
 
+                {/*Categories*/}
                 <div className="form-row">
-                    {/*Categories*/}
                     <div className="form-group col-md-4">
                         <label htmlFor="inputState">دسته بندی ها</label>
                         <Select

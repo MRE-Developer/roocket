@@ -6,9 +6,10 @@ class AdminRoute extends Component {
 
     render() {
         const {component: Component, ...restProps} = this.props;
+        const {user} = store.getState().user;
         return <Route {...restProps} render={(props) => (
 
-            store.getState().user.user.admin ? (
+            user && user.admin ? (
                     <Component {...props}/>
                 ) : (
                     <Redirect to={{ pathname : "/" , state : {from : props.location} }} />
