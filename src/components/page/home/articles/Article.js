@@ -141,6 +141,10 @@ class Article extends Component {
                                 <h5>دسته بندی :<Link to={`/category/${article.category.slug}`}
                                                      className="text-primary"> {article.category.name}</Link></h5>
 
+                                <h5>
+                                    <a className="text-primary" href={article.source_url} target="_blank">منبع</a>
+                                </h5>
+
                                 <h5>تگ ها :
 
                                     {article.tags.map((tag, index) => <span key={index}
@@ -176,7 +180,7 @@ class Article extends Component {
                             {article.comments.map((comment, index) => (
                                 <div className="media border p-2" key={index}>
                                     <a className="pull-right" href="#">
-                                        <img className="media-object" src="http://placehold.it/64x64"
+                                        <img className="media-object" width="64" height="64"  src={"http://localhost:8000" + comment.user.image_url}
                                              alt=""/>
                                     </a>
                                     <div className="media-body ml-2">
@@ -201,7 +205,7 @@ class Article extends Component {
                                             <div className="media mt-2" key={index}>
                                                 <a className="pull-right" href="#">
                                                     <img className="media-object"
-                                                         src="http://placehold.it/64x64"
+                                                         width="64" height="64"  src={"http://localhost:8000" + childComment.user.image_url}
                                                          alt=""/>
                                                 </a>
                                                 <div className="media-body ml-2">

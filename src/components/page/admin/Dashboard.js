@@ -19,6 +19,8 @@ import SectionEditLevel from "./section/levels/SectionEditLevel";
 import {isAllowed} from "../../../config/auth";
 import Comments from "./Comments";
 import SectionAnswerComment from "./section/comments/SectionAnswerComment";
+import Courses from "./Courses";
+import SectionEditCourse from "./section/courses/SectionEditCourse";
 
 class Dashboard extends Component {
 
@@ -41,6 +43,8 @@ class Dashboard extends Component {
                                 <Route path="/admin/article/edit/:slug" component={SectionEditArticle}/>
                                 }
 
+                                <Route path="/admin/courses" component={Courses}/>
+                                <Route path="/admin/course/edit/:slug" component={SectionEditCourse}/>
 
                                 {isAllowed("All-Categories") &&
                                 <Route path="/admin/categories" component={Categories}/>
@@ -100,6 +104,10 @@ class Dashboard extends Component {
                                     <ul style={{listStyleType: "none", padding: 0}}>
                                         <li>
                                             <Link to="/admin/articles">مقاله ها</Link>
+                                        </li>
+
+                                        <li>
+                                            <Link to="/admin/courses">دوره ها</Link>
                                         </li>
 
                                         {isAllowed("All-Categories") &&

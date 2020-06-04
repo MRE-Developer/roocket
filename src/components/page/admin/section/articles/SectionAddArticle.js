@@ -26,9 +26,6 @@ class AddArticle extends Component {
                 tags: [],
                 category_id: "",
             },
-            insertImageRequested: false,
-            imageFileRequested: null,
-            eventLogData: null
         };
     }
 
@@ -80,7 +77,7 @@ class AddArticle extends Component {
                 break;
             case 'source_url':
                 errors.source_url =
-                    !validator.isLength(value, {min: 5})
+                    !validator.isLength(value, {min: 10})
                         ? 'منبع مقاله نباید کمتر از 10 کاراکتر باشد!'
                         : '';
                 break;
@@ -96,14 +93,6 @@ class AddArticle extends Component {
             }
         }));
     };
-    handleChangeBody = (value) => {
-        this.setState(prevState => ({
-            article: {
-                ...prevState.article,
-                body: value
-            }
-        }));
-    };
     changeImage = (event) => {
         const image = event.target.files[0];
         this.setState(prevState => ({
@@ -116,6 +105,7 @@ class AddArticle extends Component {
     submitData = (e) => {
         e.preventDefault();
         const {article} = this.state;
+        console.log(article);
         if (article.title.length && article.source_url.length > 10 &&
             article.body.length && article.description.length > 20 &&
             article.category_id && article.tags.length && article.image) {
