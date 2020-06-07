@@ -10,13 +10,15 @@ class Home extends Component {
 
     state = {
         articles: null,
+        courses: null
     };
 
     componentDidMount() {
-        Axios.get(API_ROUTE + "/lastArticles")
+        Axios.get(API_ROUTE + "/lastProducts")
             .then((response) => {
                 if (response.data.status === "success") {
-                    this.setState({articles: response.data.data});
+                    const data = response.data.data;
+                    this.setState({articles: data.articles, courses: data.courses});
                 } else {
                     swal("عملیات نا موفق!", SERVER_ERROR, "error");
                 }
@@ -27,7 +29,7 @@ class Home extends Component {
     };
 
     render() {
-        const {articles} = this.state;
+        const {articles, courses} = this.state;
 
         return (
             <div className="container">
@@ -53,6 +55,29 @@ class Home extends Component {
                     ?
                     <div className="row rtl">
                         {articles.map((article, index) => <Article article={article} key={index}/>)}
+                    </div>
+                    : ""
+                }
+
+                <hr/>
+
+
+                {courses
+                    ?
+                    <div>
+
+                        <div className="row justify-content-between mb-2">
+                            <div className="col-4 float-right">
+                                <h2><span className="badge badge-secondary p-3 float-right">آخرین دوره ها</span></h2>
+                            </div>
+                            <div className="col-4 align-self-center">
+                                <h5><Link to={ROUTE_ARTICLES}>مشاهده همه دوره ها</Link></h5>
+                            </div>
+                        </div>
+
+                        <div className="row rtl">
+                            {courses.map((course, index) => <Article article={course} key={index}/>)}
+                        </div>
                     </div>
                     : ""
                 }

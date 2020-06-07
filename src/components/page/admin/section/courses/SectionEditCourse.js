@@ -47,7 +47,7 @@ const SectionEditCourse = (props) => {
                     let selectedType = {
                         value: type,
                         label: type === "vip" ? "کاربر ویژه" :
-                            type === "price" ? "نقدی" : "رایگان"
+                            type === "cash" ? "نقدی" : "رایگان"
                     };
 
                     setCourse({
@@ -258,7 +258,7 @@ const SectionEditCourse = (props) => {
                                 options={[
                                     {value: "free", label: "رایگان"},
                                     {value: "vip", label: "کاربر ویژه"},
-                                    {value: "price", label: "نقدی"},
+                                    {value: "cash", label: "نقدی"},
                                 ]}
                             />
                         </div>

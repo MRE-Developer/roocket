@@ -227,7 +227,7 @@ const SectionAddCourse = (props) => {
                                 options={[
                                     {value: "free", label: "رایگان"},
                                     {value: "vip", label: "کاربر ویژه"},
-                                    {value: "price", label: "نقدی"},
+                                    {value: "cash", label: "نقدی"},
                                 ]}
                             />
                         </div>

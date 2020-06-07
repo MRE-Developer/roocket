@@ -75,7 +75,7 @@ class Header extends Component {
                                             <div>
                                                 {userState.user && userState.user.admin
                                                     ?
-                                                    <Link className="btn btn-info ml-2" to="/admin/courses">داشبورد</Link>
+                                                    <Link className="btn btn-info ml-2" to="/admin/episodes">داشبورد</Link>
                                                     :
                                                     ""
                                                 }

@@ -21,6 +21,8 @@ import Comments from "./Comments";
 import SectionAnswerComment from "./section/comments/SectionAnswerComment";
 import Courses from "./Courses";
 import SectionEditCourse from "./section/courses/SectionEditCourse";
+import Episodes from "./Episodes";
+import SectionEditEpisode from "./episodes/SectionEditEpisode";
 
 class Dashboard extends Component {
 
@@ -45,6 +47,9 @@ class Dashboard extends Component {
 
                                 <Route path="/admin/courses" component={Courses}/>
                                 <Route path="/admin/course/edit/:slug" component={SectionEditCourse}/>
+
+                                <Route path="/admin/episodes" component={Episodes}/>
+                                <Route path="/admin/course/:course_slug/episode/:number/edit" component={SectionEditEpisode}/>
 
                                 {isAllowed("All-Categories") &&
                                 <Route path="/admin/categories" component={Categories}/>
@@ -108,6 +113,10 @@ class Dashboard extends Component {
 
                                         <li>
                                             <Link to="/admin/courses">دوره ها</Link>
+                                        </li>
+
+                                        <li>
+                                            <Link to="/admin/episodes">ویدیو ها</Link>
                                         </li>
 
                                         {isAllowed("All-Categories") &&

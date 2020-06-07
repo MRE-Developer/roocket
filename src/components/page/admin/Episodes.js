@@ -1,10 +1,9 @@
 import React, {useState, useRef} from 'react';
 import {Link, Route, Switch} from "react-router-dom";
 import SectionEpisodes from "./episodes/SectionEpisodes";
-import SectionAddCourse from "./section/courses/SectionAddCourse";
-import SectionCourses from "./section/courses/SectionCourses";
+import SectionAddEpisode from "./episodes/SectionAddEpisode";
 
-const Courses = () => {
+const Episode = () => {
 
     const [search, setSearch] = useState("");
     const searchInput = useRef(null);
@@ -17,13 +16,13 @@ const Courses = () => {
     return (
         <div>
             <nav className="navbar navbar-expand-lg navbar-light bg-light mb-1">
-                <Link className="navbar-brand" to="/admin/courses">دوره ها</Link>
+                <Link className="navbar-brand" to="/admin/episodes">ویدیو ها</Link>
                 <div className="collapse navbar-collapse" id="navbarNav">
                     <ul className="navbar-nav mr-auto">
 
                         {/*{isAllowed("Create-Article") &&*/}
                         <li className="nav-item active">
-                            <Link className="nav-link text-primary" to="/admin/courses/create">افزودن دوره</Link>
+                            <Link className="nav-link text-primary" to="/admin/episodes/create">افزودن ویدیو</Link>
                         </li>
                         {/*}*/}
                     </ul>
@@ -43,14 +42,14 @@ const Courses = () => {
             </nav>
 
             <Switch>
-                <Route exact path="/admin/courses" render={() => <SectionCourses search={search}/>}/>
+                <Route exact path="/admin/episodes" render={() => <SectionEpisodes search={search}/>}/>
 
                 {/*{isAllowed("Create-Article") &&*/}
-                <Route exact path="/admin/courses/create" component={SectionAddCourse}/>
+                <Route exact path="/admin/episodes/create" component={SectionAddEpisode}/>
                 {/*}*/}
             </Switch>
         </div>
     )
 };
 
-export default Courses
+export default Episode
